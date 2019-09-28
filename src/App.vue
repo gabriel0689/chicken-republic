@@ -1,22 +1,27 @@
 <template>
   <v-app>
-    <AppBar/>
+    <AppBar :currentUser="{currentUser}"/>
     <v-content>
-      <router-view></router-view>
+      <router-view :currentUser="{currentUser}"/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import AppBar from './components/AppBar';
+import { fb } from "./db.js"
+import AppBar from "./components/AppBar";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     AppBar
   },
   data: () => ({
-    //
+    currentUser: {}
   }),
+  created() {
+    this.currentUser = fb.auth().currentUser;
+    // console.log(this.user)
+  }
 };
 </script>

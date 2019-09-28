@@ -7,30 +7,27 @@
 </template>
 
 <script>
-import {db, fb} from '../db.js'
+import {db, fb} from "../db.js"
 export default {
+  name: "home",
+  props: {currentUser: Object},
   data: () => ({
     firstName: null
   }),
   mounted() {
-    // db.collection("users")
-    // .doc("lfu527K7iJuij8bqBUiy")
-    // .get().then(snapshot => {
-    //   this.user = snapshot.data().name;
-    // })
-
-    const userEmail = fb.auth().currentUser.email;
-    db.collection("users")
-    .doc(userEmail).get()
-    .then(snapshot => {
-      this.firstName = snapshot.data().firstName;
-    })
-    .catch(error => {
-      console.log(error);
-      // this.feedback = error.message;
-    })
-    console.log(userEmail);
-
+    console.log(this.currentUser);
+    if (this.currentUser) {
+      const email = this.currentUser.currentUser.email;
+      db.collection("users")
+      .doc(email).get()
+      .then(snapshot => {
+        this.firstName = snapshot.data().firstName;
+      })
+      .catch(error => {
+        console.log(error);
+        // this.feedback = error.message;
+      })  
+    }
   }
 };
 </script>

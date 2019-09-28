@@ -26,9 +26,9 @@
 
                     <v-text-field v-model="zipCode" type="number" label="Zip Code"></v-text-field>
 
-                    <v-text-field v-model="email" label="E-mail"></v-text-field>
+                    <v-text-field v-model="email" label="E-mail" type="email"></v-text-field>
 
-                    <v-text-field v-model="password" label="Password"></v-text-field>
+                    <v-text-field v-model="password" label="Password" type="password"></v-text-field>
 
                     <v-checkbox v-model="checkbox" label="I agree to the terms and conditions?"></v-checkbox>
 
@@ -41,15 +41,12 @@
 </template>
 
 <script>
-    import slugify from "slugify"
-    import {db, fb} from '../db.js'
+    import {db, fb} from "../db.js"
     export default {
     name: "SignUp",
     data: () => ({
-        slug: null,
         feedback: null,
         success: null,
-        //   username: null,
         email: null,
         password: null,
         checkbox: false,
@@ -62,12 +59,7 @@
 
     methods: {
         signUp() {
-            if (this.firstName && this.email && this.password) {
-                // this.slug = slugify(this.username, {
-                //     replacement: '-',
-                //     remove: /[$*_+~.()'"!\-:@]/g,
-                //     lower: true
-                // }); 
+            if (this.firstName && this.email && this.password) { 
                 let ref = db.collection("users").doc(this.email)
                 ref.get().then(doc => {
                     if(doc.exists) {
@@ -94,7 +86,6 @@
                         this.success = "this username is avaliable"
                     }
                 })
-                console.log(this.slug)
             } else {
                 this.feedback = "You must enter all fields"
             }
