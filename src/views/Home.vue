@@ -5,17 +5,17 @@
       <p class="my-2 mx-2 display-1">Meals</p> 
       <!-- <v-icon class="mr-80" color="primary" x-large>mdi-room-service</v-icon> -->
     </v-row>
-    <v-row class="my-4">
-      <v-card max-width="280" v-for="item in meals" :key="item.menuItemId" class="mx-2 my-2">
+    <v-row class="my-4" justify="center">
+      <v-card max-width="300" v-for="meal in meals" :key="meal.name" class="mx-2 my-2">
 
-        <v-img class="white--text" height="200px" :src="item.image"
+        <v-img class="white--text" height="200px" :src="meal.image"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">
-          <v-card-title class="align-end fill-height">{{ item.name }}</v-card-title>
+          <v-card-title class="align-end fill-height">{{ meal.name }}</v-card-title>
         </v-img>
 
         <v-card-text>
           <span class="text--primary">
-            <span>{{ item.info }}</span><br>
+            <span>{{ meal.info }}</span><br>
           </span>
         </v-card-text>
 
@@ -28,17 +28,17 @@
       <p class="my-2 mx-2 display-1">Sides</p> 
       <!-- <v-icon class="mr-80" color="primary" x-large>mdi-room-service</v-icon> -->
     </v-row>
-    <v-row class="my-4">
-      <v-card max-width="280" v-for="item in sides" :key="item.menuItemId" class="mx-2 my-2">
+    <v-row class="my-4" justify="center">
+      <v-card max-width="300" v-for="side in sides" :key="side.info" class="mx-2 my-2">
 
-        <v-img class="white--text" height="200px" :src="item.image"
+        <v-img class="white--text" height="200px" :src="side.image"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">
-          <v-card-title class="align-end fill-height">{{ item.name }}</v-card-title>
+          <v-card-title class="align-end fill-height">{{ side.name }}</v-card-title>
         </v-img>
 
         <v-card-text>
           <span class="text--primary">
-            <span>{{ item.info }}</span><br>
+            <span>{{ side.info }}</span><br>
           </span>
         </v-card-text>
 
@@ -51,17 +51,17 @@
       <p class="my-2 mx-2 display-1">Drinks</p> 
       <!-- <v-icon class="mr-80" color="primary" x-large>mdi-room-service</v-icon> -->
     </v-row>
-    <v-row class="my-4">
-      <v-card max-width="280" v-for="item in drinks" :key="item.menuItemId" class="mx-2 my-2">
+    <v-row class="my-4" justify="center">
+      <v-card max-width="300" v-for="drink in drinks" :key="drink.menuItemId" class="mx-2 my-2">
 
-        <v-img class="white--text" height="200px" :src="item.image"
+        <v-img class="white--text" height="200px" :src="drink.image"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)">
-          <v-card-title class="align-end fill-height">{{ item.name }}</v-card-title>
+          <v-card-title class="align-end fill-height">{{ drink.name }}</v-card-title>
         </v-img>
 
         <v-card-text>
           <span class="text--primary">
-            <span>{{ item.info }}</span><br>
+            <span>{{ drink.info }}</span><br>
           </span>
         </v-card-text>
 
@@ -70,6 +70,15 @@
         </v-card-actions>
       </v-card>
     </v-row>
+    
+    <v-btn fab large right fixed bottom color="secondary">
+      <v-badge top right overlap class="align-self-center" color="primary">
+        <template v-slot:badge>
+          <span>1</span>
+        </template>
+        <v-icon>mdi-cart</v-icon>
+      </v-badge>
+    </v-btn>
   </v-container>
 </template>
 
@@ -83,11 +92,12 @@ export default {
     menu : [],
     meals: [],
     sides: [],
-    drinks: []
+    drinks: [],
+    cart: []
   }),
   mounted() {
     // console.log(this.currentUser); get the users email
-    if (this.currentUser) {
+    if (this.currentUser.currentUser) {
       const email = this.currentUser.currentUser.email;
       db.collection("users")
       .doc(email).get()

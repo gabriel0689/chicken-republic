@@ -4,13 +4,13 @@
       color="#d43027"
       dark
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
+      <v-btn icon text to="/" color="primary">
       <v-img class="mx-2"
         :src="require('../assets/chicken-republic-logo.jpeg')"
         max-height="40" max-width="40" contain></v-img>
+      </v-btn>
 
-      <v-toolbar-title><v-btn text transparent to="//">Chicken Republic</v-btn></v-toolbar-title>
+      <v-toolbar-title>Chicken Republic</v-toolbar-title>
 
       <div class="flex-grow-1"></div>
 
@@ -19,10 +19,6 @@
       <v-btn text small v-if="!currentUser.currentUser" to="/login">Log In</v-btn>
 
       <v-btn text small to="/signup" v-if="!currentUser.currentUser">Sign Up</v-btn>
-
-      <v-btn icon small class="d-none d-sm-flex mr-4">
-        <v-icon>mdi-cart</v-icon>
-      </v-btn>
 
     </v-app-bar>
   </div>
@@ -41,7 +37,7 @@ export default {
       .then(() => {
         this.$router.push({ name: "login" })
       })
-      .catch(function(error) {
+      .catch( error => {
         // An error happened.
         console.log(error.message);
       });
