@@ -1,9 +1,10 @@
 <template>
   <v-container class="px-8 py-8">
-    <v-card flat color="transparent" v-if="firstName">Welcome Back, {{ firstName }}</v-card>
+    <v-card flat color="transparent" v-if="firstName">
+      Welcome Back, {{ firstName }}
+    </v-card>
     <v-row justify="center">
       <p class="my-2 mx-2 display-1">Meals</p> 
-      <!-- <v-icon class="mr-80" color="primary" x-large>mdi-room-service</v-icon> -->
     </v-row>
     <v-row class="my-4" justify="center">
       <v-card max-width="300" v-for="meal in meals" :key="meal.name" class="mx-2 my-2">
@@ -20,13 +21,12 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn text color="primary">Add to Cart</v-btn>
+          <v-btn text color="primary" @click="addToCart(meal)">Add to Cart</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>
     <v-row justify="center">
       <p class="my-2 mx-2 display-1">Sides</p> 
-      <!-- <v-icon class="mr-80" color="primary" x-large>mdi-room-service</v-icon> -->
     </v-row>
     <v-row class="my-4" justify="center">
       <v-card max-width="300" v-for="side in sides" :key="side.info" class="mx-2 my-2">
@@ -43,13 +43,12 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn text color="primary">Add to Cart</v-btn>
+          <v-btn text color="primary" @click="addToCart(side)">Add to Cart</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>
     <v-row justify="center">
       <p class="my-2 mx-2 display-1">Drinks</p> 
-      <!-- <v-icon class="mr-80" color="primary" x-large>mdi-room-service</v-icon> -->
     </v-row>
     <v-row class="my-4" justify="center">
       <v-card max-width="300" v-for="drink in drinks" :key="drink.menuItemId" class="mx-2 my-2">
@@ -66,19 +65,26 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn text color="primary">Add to Cart</v-btn>
+          <v-btn text color="primary" @click="addToCart(drink)">Add to Cart</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>
     
-    <v-btn fab large right fixed bottom color="secondary">
+    <v-btn fab large right fixed bottom color="secondary" to="/cart">
       <v-badge top right overlap class="align-self-center" color="primary">
         <template v-slot:badge>
-          <span>1</span>
+          <span v-if="cart.length > 0">{{ cart.length }}</span>
         </template>
         <v-icon>mdi-cart</v-icon>
       </v-badge>
     </v-btn>
+
+    <v-snackbar v-model="snackbar" :timeout="timeout">
+      {{ text }}
+      <v-btn color="primary" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -86,19 +92,25 @@
 import {db, fb} from "../db.js"
 export default {
   name: "home",
-  props: {currentUser: Object},
+  props: {
+    currentUser: Object,
+    cart: Array
+  },
   data: () => ({
     firstName: null,
     menu : [],
     meals: [],
     sides: [],
     drinks: [],
-    cart: []
+    // cart: [],
+    snackbar: false,
+    text: 'Item added to cart.',
+    timeout: 2000
   }),
   mounted() {
     // console.log(this.currentUser); get the users email
-    if (this.currentUser.currentUser) {
-      const email = this.currentUser.currentUser.email;
+    if (this.currentUser) {
+      const email = this.currentUser.email;
       db.collection("users")
       .doc(email).get()
       .then(snapshot => {
@@ -129,6 +141,22 @@ export default {
     .catch(error => {
       console.log("Error getting documents: ", error);
     });
+  },
+  methods: {
+    addToCart(meal) {
+      
+      if (this.cart.includes(meal)) {
+        meal.quantity++;
+      } else {
+        meal.quantity = 1; 
+        this.cart.push(meal);  
+      }
+      this.snackbar = true;
+      // console.log(this.cart.length + " items in cart.");
+      // console.log(this.cart);
+
+      this.$emit("addToCart", this.cart)
+    }
   }
 };
 </script>

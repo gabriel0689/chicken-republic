@@ -14,11 +14,11 @@
 
       <div class="flex-grow-1"></div>
 
-      <v-btn text small v-if="currentUser.currentUser" @click="logOut">Log Out</v-btn>
+      <v-btn text small v-if="currentUser" @click="logOut">Log Out</v-btn>
 
-      <v-btn text small v-if="!currentUser.currentUser" to="/login">Log In</v-btn>
+      <v-btn text small v-if="!currentUser" to="/login">Log In</v-btn>
 
-      <v-btn text small to="/signup" v-if="!currentUser.currentUser">Sign Up</v-btn>
+      <v-btn text small to="/signup" v-if="!currentUser">Sign Up</v-btn>
 
     </v-app-bar>
   </div>
