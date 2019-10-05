@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <AppBar :currentUser="{currentUser}"/>
+    <AppBar :currentUser="currentUser"/>
     <v-content>
       <router-view :currentUser="currentUser" :cart="cart" v-on:addToCart="updateCart($event)"/>
     </v-content>
@@ -28,7 +28,7 @@ export default {
     updateCart(updatedCart) {
       this.cart = updatedCart;
       // console.log(this.cart.length + " items in cart.");
-      console.table(this.cart);
+      // console.table(this.cart);
     }
   },
   updated() {

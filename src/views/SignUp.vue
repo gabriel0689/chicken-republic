@@ -77,13 +77,13 @@
                                 zipCode: this.zipCode
                             })
                         }).then(() => {
+                            this.success = "this username is avaliable"
                             this.$router.push({ name: "home" })
                         })
                         .catch(error => {
                             console.log(error);
                             this.feedback = error.message;
                         })
-                        this.success = "this username is avaliable"
                     }
                 })
             } else {

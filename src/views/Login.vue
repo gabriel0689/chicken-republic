@@ -49,13 +49,14 @@
                     } else {
                         fb.auth().signInWithEmailAndPassword(this.email, this.password)
                         .then(() => {
+                            this.success = "You successfully logged in";
                             this.$router.replace({ name: "home" });
                         })
                         .catch(error => {
                             console.log(error);
                             this.feedback = error.message;
                         })
-                        this.success = "You successfully logged in";
+                        
                     }
                 })
             } else {

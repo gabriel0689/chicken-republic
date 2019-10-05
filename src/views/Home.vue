@@ -108,7 +108,7 @@ export default {
     timeout: 2000
   }),
   mounted() {
-    // console.log(this.currentUser); get the users email
+    console.log(this.currentUser); //get the users email
     if (this.currentUser) {
       const email = this.currentUser.email;
       db.collection("users")
