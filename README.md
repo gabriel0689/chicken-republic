@@ -1,29 +1,15 @@
 # chicken-republic
 
-## Project setup
+## Project demo
+
 ```
-npm install
+https://chicken-republic.firebaseapp.com
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Known Bugs and Other Issues 
 
-### Compiles and minifies for production
 ```
-npm run build
-```
+1. Updated quantity is not reactive
+2. [Vue Warn] removing cart item directly modifes prop, updating root component data 
 
-### Run your tests
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
