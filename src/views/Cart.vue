@@ -66,7 +66,7 @@
         <v-col cols="7" v-if="currentUser">
             <v-expansion-panels>
                 <v-expansion-panel>
-                <v-expansion-panel-header><v-checkbox v-model="checkbox"></v-checkbox> Use my address</v-expansion-panel-header>
+                <v-expansion-panel-header>Your address</v-expansion-panel-header>
                 <v-expansion-panel-content>
                     <p class="body-1"> Name: {{ firstName }} {{ lastName }} </p>
                     <p class="body-1"> Address: {{ address }} </p>
