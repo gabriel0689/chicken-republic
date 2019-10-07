@@ -12,7 +12,7 @@
                     <v-card-text>
                         <p class="title">{{ item.name }}</p>
                         <v-icon small="" class="d-inline">mdi-close</v-icon>
-                        <v-btn small text>Remove</v-btn>
+                        <v-btn small text @click="removeItem(item)">Remove</v-btn>
                     </v-card-text>
                 </v-card>
             </v-row>
@@ -24,11 +24,17 @@
                     <v-card-text>
                         <p class="title text-center">{{ item.price }}</p>
 
-                        <v-icon color="primary large" @click="increaseQuantity(item)">mdi-plus-box-outline</v-icon>
+                        <v-icon color="primary large" @click="increaseQuantity(item)">
+                            mdi-plus-box-outline
+                        </v-icon>
 
-                        <p class="d-inline body-1 mx-1" color="#000000" :cart="item.quantity">{{ item.quantity }}</p>
+                        <p class="d-inline body-1 mx-1" color="#000000" :cart="item.quantity">
+                            {{ item.quantity }}
+                        </p>
 
-                        <v-icon color="primary large" @click="decreaseQuantity(item)">mdi-minus-box-outline</v-icon>
+                        <v-icon color="primary large" @click="decreaseQuantity(item)">
+                            mdi-minus-box-outline
+                        </v-icon>
                     </v-card-text>
                 </v-card>
             </v-row>
@@ -57,7 +63,21 @@
         </v-col>
     </v-row>
     <v-row justify="center">
-        <v-btn class="my-8 primary">Confirm Order</v-btn>
+        <v-col cols="7" v-if="currentUser">
+            <v-expansion-panels>
+                <v-expansion-panel>
+                <v-expansion-panel-header><v-checkbox v-model="checkbox"></v-checkbox> Use my address</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <p class="body-1"> Name: {{ firstName }} {{ lastName }} </p>
+                    <p class="body-1"> Address: {{ address }} </p>
+                    <p class="body-1"> Phone Address: {{ phoneNumber }} </p>
+                </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </v-col>
+    </v-row>
+    <v-row justify="center">
+        <v-btn class="my-8 primary" @click="submitOrder">Confirm Order</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -71,13 +91,34 @@ export default {
     cart: Array
   },
   data: () => ({
-    total: 0
+    total: 0,
+    lastName: null,
+    firstName: null,
+    address: null,
+    phoneNumber: null,
+    zipCode: null,
+    checkbox: false,
   }),
   mounted() {
     // console.table(this.cart);
     this.cart.forEach(menuItem => {
         this.total += menuItem.price * menuItem.quantity;
     });
+    const email = this.currentUser.email;
+    let docRef = db.collection("users").doc(email);
+    docRef.get().then(doc => {
+        if (doc.exists) {
+            // console.log("Document Data", doc.data());
+            this.address = doc.data().address;
+            this.phoneNumber = doc.data().phoneNumber;
+            this.lastName = doc.data().lastName;
+            this.firstName = doc.data().firstName;
+        } else {
+            console.log("No such document!");
+        }
+    }).catch(error => {
+        console.log("Error getting documents: ", error);
+    })
   },
   methods: {
     increaseQuantity(item) {
@@ -92,6 +133,20 @@ export default {
             item.quantity--;
             this.$emit("addToCart", this.cart)
         }    
+    },
+    removeItem(item) {
+        this.cart = this.cart.filter(items => items !== item);
+        // this.cart.splice(index, 1);
+        this.$emit("addToCart", this.cart)
+    },
+    submitOrder() {
+        db.collection("users").doc(this.currentUser.email)
+        .collection("orders").add({
+            orderDate: new Date(),
+            total: this.total,
+            items: this.cart
+        })
+        this.$router.push({ name: "checkout" })
     }
   }
 };

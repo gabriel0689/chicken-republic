@@ -94,14 +94,14 @@ export default {
   name: "home",
   props: {
     currentUser: Object,
-    cart: Array
+    cart: Array,
+    menu: Array,
+    meals: Array,
+    sides: Array,
+    drinks: Array
   },
   data: () => ({
     firstName: null,
-    menu : [],
-    meals: [],
-    sides: [],
-    drinks: [],
     // cart: [],
     snackbar: false,
     text: 'Item added to cart.',
@@ -121,26 +121,6 @@ export default {
         // this.feedback = error.message;
       })  
     }
-    // get the menu
-    let menuRef = db.collection("menu");
-    menuRef.get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        // console.log(doc.id, " => ", doc.data());
-        this.menu.push(doc.data());
-        // console.log(this.menu);
-     });
-    // filter the menu into categories
-    this.meals = this.menu.filter(item =>  item.category == "meal" );
-    // console.log(this.meals);
-    this.sides = this.menu.filter(item =>  item.category == "side" );
-    // console.log(this.meals);
-    this.drinks = this.menu.filter(item =>  item.category == "drink" );
-    // console.log(this.meals);
-    })
-    .catch(error => {
-      console.log("Error getting documents: ", error);
-    });
   },
   methods: {
     addToCart(meal) {
