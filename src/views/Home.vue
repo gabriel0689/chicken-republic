@@ -15,6 +15,7 @@
         </v-img>
 
         <v-card-text>
+          <div class="title text--primary pb-2">&#8358; {{ meal.price }}</div>
           <span class="text--primary">
             <span>{{ meal.info }}</span><br>
           </span>
@@ -37,6 +38,7 @@
         </v-img>
 
         <v-card-text>
+          <div class="title text--primary pb-2">&#8358; {{ side.price }}</div>
           <span class="text--primary">
             <span>{{ side.info }}</span><br>
           </span>
@@ -59,6 +61,7 @@
         </v-img>
 
         <v-card-text>
+          <div class="title text--primary pb-2">&#8358; {{ drink.price }}</div>
           <span class="text--primary">
             <span>{{ drink.info }}</span><br>
           </span>
@@ -92,50 +95,50 @@
 import {db, fb} from "../db.js"
 export default {
   name: "home",
-  props: {
-    currentUser: Object,
-    cart: Array,
-    menu: Array,
-    meals: Array,
-    sides: Array,
-    drinks: Array
-  },
   data: () => ({
     firstName: null,
-    // cart: [],
     snackbar: false,
     text: 'Item added to cart.',
     timeout: 2000
   }),
   mounted() {
-    console.log(this.currentUser); //get the users email
-    if (this.currentUser) {
-      const email = this.currentUser.email;
+    if (this.user) {
+      const email = this.user.email;
       db.collection("users")
       .doc(email).get()
       .then(snapshot => {
         this.firstName = snapshot.data().firstName;
       })
       .catch(error => {
-        console.log(error);
+        alert(error);
         // this.feedback = error.message;
       })  
     }
   },
   methods: {
-    addToCart(meal) {
-      
-      if (this.cart.includes(meal)) {
-        meal.quantity++;
-      } else {
-        meal.quantity = 1; 
-        this.cart.push(meal);  
-      }
+    addToCart(item) {
+      this.$store.dispatch("addToCartAction", item);
       this.snackbar = true;
-      // console.log(this.cart.length + " items in cart.");
-      // console.log(this.cart);
-
-      this.$emit("addToCart", this.cart)
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+    menu() {
+      return this.$store.state.menu;
+    },
+    cart() {
+      return this.$store.state.cart;
+    },
+    meals() {
+      return this.$store.getters.meals;
+    },
+    sides() {
+      return this.$store.getters.sides;
+    },
+    drinks() {
+      return this.$store.getters.drinks;
     }
   }
 };

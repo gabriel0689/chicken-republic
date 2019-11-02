@@ -5,7 +5,7 @@
       dark
     >
       <v-btn icon text to="/" color="primary">
-      <v-img class="mx-2"
+      <v-img
         :src="require('../assets/chicken-republic-logo.jpeg')"
         max-height="40" max-width="40" contain></v-img>
       </v-btn>
@@ -39,7 +39,7 @@ export default {
       })
       .catch( error => {
         // An error happened.
-        console.log(error.message);
+        alert(error.message);
       });
     }
   }

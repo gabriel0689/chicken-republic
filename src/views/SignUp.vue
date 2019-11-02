@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import {db, fb} from "../db.js"
+    import {db, fb} from "../db.js";
     export default {
     name: "SignUp",
     data: () => ({
