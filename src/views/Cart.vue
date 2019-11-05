@@ -125,7 +125,7 @@ export default {
   },
   mounted() {
       if(this.user) {
-        const email = this.currentUser.email;
+        const email = this.user.email;
         let docRef = db.collection("users").doc(email);
         docRef.get().then(doc => {
             if (doc.exists) {
@@ -134,6 +134,7 @@ export default {
                 this.phoneNumber = doc.data().phoneNumber;
                 this.lastName = doc.data().lastName;
                 this.firstName = doc.data().firstName;
+                this.zipCode = doc.data().zipCode;
             } else {
                 alert.log("No such document!");
             }
@@ -154,11 +155,21 @@ export default {
     },
     submitOrder() {
         if (this.user) {
-            db.collection("users").doc(this.currentUser.email)
+            db.collection("users").doc(this.user.email)
             .collection("orders").add({
                 orderDate: new Date(),
                 total: this.total,
                 items: this.cart
+            });
+            db.collection("orders").add({
+                orderDate: new Date(),
+                total: this.total,
+                items: this.cart,
+                lastName: this.lastName,
+                firstName: this.firstName,
+                address: this.address,
+                phoneNumber: this.phoneNumber,
+                zipCode: this.zipCode,
             })
         } else {
             db.collection("orders").add({

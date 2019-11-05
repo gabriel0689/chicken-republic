@@ -32,7 +32,7 @@
 
                     <v-checkbox v-model="checkbox" label="I agree to the terms and conditions?"></v-checkbox>
 
-                    <v-btn :disabled="!checkbox" class="mr-4 primary" @click="signUp">Sign Up</v-btn>
+                    <v-btn :disabled="!checkbox" class="mr-4 primary" @click="signUp" :loading="loading">Sign Up</v-btn>
                 </v-form>
             </v-col>
             
@@ -54,16 +54,19 @@
         lastName: null,
         address: null,
         phoneNumber: null,
-        zipCode: null
+        zipCode: null,
+        loading: false
     }),
 
     methods: {
         signUp() {
+            this.loading = true;
             if (this.firstName && this.email && this.password) { 
                 let ref = db.collection("users").doc(this.email)
                 ref.get().then(doc => {
                     if(doc.exists) {
-                        this.feedback = "this email is already taken"
+                        this.feedback = "this email is already taken";
+                        this.loading = false;
                     } else {
                         fb.auth().createUserWithEmailAndPassword(this.email, this.password)
                         .then(cred => {
@@ -77,11 +80,13 @@
                                 zipCode: this.zipCode
                             })
                         }).then(() => {
+                            this.loading = false;
                             this.success = "this username is avaliable"
                             this.$router.push({ name: "home" })
                         })
                         .catch(error => {
-                            console.log(error);
+                            // alert(error);
+                            this.loading = false;
                             this.feedback = error.message;
                         })
                     }

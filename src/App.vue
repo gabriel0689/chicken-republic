@@ -4,21 +4,24 @@
     <v-content>
       <router-view />
     </v-content>
+    <Footer />
   </v-app>
 </template>
 
 <script>
-// import { db, fb } from "./db.js";
 import AppBar from "./components/AppBar";
+import Footer from "./components/Footer";
 
 export default {
   name: "App",
   components: {
-    AppBar
+    AppBar,
+    Footer
   },
   created() {
     this.$store.dispatch("loadMenuAction");
     this.$store.dispatch("loadUserAction");
+    this.$store.dispatch("loadOrdersAction");
   }
 };
 </script>

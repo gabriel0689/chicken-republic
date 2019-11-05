@@ -9,8 +9,15 @@
             </v-card>
 
         </v-row>
+        <v-row>
+            <v-img 
+                class="my-4" max-height="200" contain
+                :src="require('../assets/chicken-republic-logo-2.png')" 
+                ></v-img>
+        </v-row>
         <v-row justify="center">
-            <v-btn class="my-8 primary" to="/home">Continue Shopping</v-btn>
+            <v-btn class="my-8 mx-2 primary" to="/home">Continue Shopping</v-btn>
+            <v-btn class="my-8 primary" to="/admin">View all Orders</v-btn>
         </v-row>
     </v-container>
 </template>

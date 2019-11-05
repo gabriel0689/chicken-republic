@@ -14,21 +14,20 @@
 
       <div class="flex-grow-1"></div>
 
-      <v-btn text small v-if="currentUser" @click="logOut">Log Out</v-btn>
+      <v-btn text small v-if="user" @click="logOut">Log Out</v-btn>
 
-      <v-btn text small v-if="!currentUser" to="/login">Log In</v-btn>
+      <v-btn text small v-if="!user" to="/login">Log In</v-btn>
 
-      <v-btn text small to="/signup" v-if="!currentUser">Sign Up</v-btn>
+      <v-btn text small to="/signup" v-if="!user">Sign Up</v-btn>
 
     </v-app-bar>
   </div>
 </template>
 
 <script>
-import { fb } from "../db.js"
+import { fb } from "../db.js";
 export default {
   name: "AppBar",
-  props: {currentUser: Object},
   methods: {
     logOut() {
       fb.auth().signOut().then(function() {
@@ -41,6 +40,11 @@ export default {
         // An error happened.
         alert(error.message);
       });
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
     }
   }
 };
