@@ -1,37 +1,40 @@
 <template>
-    <v-container class="px-8 py-8">
+  <v-container class="px-8 py-8">
+    <v-row justify="center">
+      <v-card flat color="transparent" class="display-1 mx-auto">All Orders</v-card>
+    </v-row>
     <v-simple-table>
-        <template v-slot:default>
+      <template v-slot:default>
         <thead>
-            <tr>
+          <tr>
             <th class="text-left">Name</th>
             <!-- <th class="text-left">No of Items</th> -->
             <th class="text-left">Phone Number</th>
             <th class="text-left">Order Date</th>
             <th class="text-left">Order Total</th>
-            </tr>
+          </tr>
         </thead>
         <tbody>
-            <tr v-for="order in orders" :key="order.total">
+          <tr v-for="order in orders" :key="order.total">
             <td>{{ order.firstName }} {{ order.lastName }}</td>
             <!-- <td>{{ order.items }}</td> -->
             <td>{{ order.phoneNumber }}</td>
             <td>{{ order.orderDate.toDate().toLocaleDateString() }}</td>
             <td>&#8358; {{ order.total }}</td>
-            </tr>
+          </tr>
         </tbody>
-        </template>
+      </template>
     </v-simple-table>
-    </v-container>
+  </v-container>
 </template>
 
 <script>
-  export default {
-    name: "admin",
-    computed: {
-        orders() {
-            return this.$store.state.orders;
-        },
+export default {
+  name: "admin",
+  computed: {
+    orders() {
+      return this.$store.state.orders;
     }
   }
+};
 </script>

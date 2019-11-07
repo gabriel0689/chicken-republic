@@ -39,6 +39,9 @@ export default new Vuex.Store({
     loadUser(state) {
       state.user = fb.auth().currentUser;
     },
+    resetUser(state) {
+      state.user = {};
+    },
     addToCart(state, item) {
       if (state.cart.includes(item)) {
         item.quantity++;
@@ -69,6 +72,9 @@ export default new Vuex.Store({
     },
     loadUserAction(context) {
       context.commit("loadUser");
+    },
+    resetUserAction(context) {
+      context.commit("resetUser");
     },
     loadOrdersAction(context) {
       context.commit("loadOrders");

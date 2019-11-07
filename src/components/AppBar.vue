@@ -1,25 +1,28 @@
 <template>
   <div>
-    <v-app-bar
-      color="#d43027"
-      dark
-    >
+    <v-app-bar color="#d43027" dark>
       <v-btn icon text to="/" color="primary">
-      <v-img
-        :src="require('../assets/chicken-republic-logo.jpeg')"
-        max-height="40" max-width="40" contain></v-img>
+        <v-img
+          :src="require('../assets/chicken-republic-logo.jpeg')"
+          max-height="40"
+          max-width="40"
+          contain
+        ></v-img>
       </v-btn>
 
       <v-toolbar-title>Chicken Republic</v-toolbar-title>
 
       <div class="flex-grow-1"></div>
 
+      <v-btn text icon color="primary" v-if="user" to="/account">
+        <v-icon color="white">mdi-account</v-icon>
+      </v-btn>
+
       <v-btn text small v-if="user" @click="logOut">Log Out</v-btn>
 
       <v-btn text small v-if="!user" to="/login">Log In</v-btn>
 
       <v-btn text small to="/signup" v-if="!user">Sign Up</v-btn>
-
     </v-app-bar>
   </div>
 </template>
@@ -30,16 +33,17 @@ export default {
   name: "AppBar",
   methods: {
     logOut() {
-      fb.auth().signOut().then(function() {
-        // Sign-out successful.
-      })
-      .then(() => {
-        this.$router.push({ name: "login" })
-      })
-      .catch( error => {
-        // An error happened.
-        alert(error.message);
-      });
+      fb.auth()
+        .signOut()
+        .then(() => {
+          // Sign-out successful.
+          this.$store.dispatch("resetUserAction");
+          this.$router.push({ name: "login" });
+        })
+        .catch(error => {
+          // An error happened.
+          alert(error.message);
+        });
     }
   },
   computed: {

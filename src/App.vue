@@ -22,6 +22,9 @@ export default {
     this.$store.dispatch("loadMenuAction");
     this.$store.dispatch("loadUserAction");
     this.$store.dispatch("loadOrdersAction");
+  },
+  updated() {
+    this.$store.dispatch("loadUserAction");
   }
 };
 </script>
