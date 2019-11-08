@@ -37,7 +37,7 @@ export default {
         .get()
         .then(doc => {
           if (doc.exists) {
-            // console.log("Document Data", doc.data());
+            // get users first name
             this.firstName = doc.data().firstName;
           } else {
             alert("No such document!");
@@ -50,10 +50,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user;
-    },
-    cart() {
-      return this.$store.state.cart;
+      return this.$store.state.user; // get user state
     }
   }
 };

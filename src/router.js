@@ -7,6 +7,7 @@ import Cart from "./views/Cart.vue";
 import Checkout from "./views/Checkout.vue";
 import Admin from "./views/Admin.vue";
 import Account from "./views/Account.vue";
+import Orders from "./views/Orders.vue";
 
 Vue.use(Router);
 
@@ -48,6 +49,11 @@ export default new Router({
       path: "/account",
       name: "account",
       component: Account
+    },
+    {
+      path: "/orders",
+      name: "orders",
+      component: Orders
     }
   ]
 });

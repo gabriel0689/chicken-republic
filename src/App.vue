@@ -19,9 +19,10 @@ export default {
     Footer
   },
   created() {
-    this.$store.dispatch("loadMenuAction");
-    this.$store.dispatch("loadUserAction");
-    this.$store.dispatch("loadOrdersAction");
+    this.$store.dispatch("loadMenuAction"); // get menu state
+    this.$store.dispatch("loadUserAction"); // get user state
+    this.$store.dispatch("loadOrdersAction"); // get all orders state
+    this.$store.dispatch("loadMyOrdersAction"); // get user's orders state
   },
   updated() {
     this.$store.dispatch("loadUserAction");

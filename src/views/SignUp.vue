@@ -64,6 +64,7 @@ export default {
       this.loading = true;
       if (this.firstName && this.email && this.password) {
         let ref = db.collection("users").doc(this.email);
+        // set the the email as the doc id
         ref.get().then(doc => {
           if (doc.exists) {
             this.feedback = "this email is already taken";

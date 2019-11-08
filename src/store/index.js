@@ -9,7 +9,8 @@ export default new Vuex.Store({
     user: {},
     menu: [],
     cart: [],
-    orders: []
+    orders: [],
+    myOrders: []
   },
   mutations: {
     loadMenu(state) {
@@ -35,6 +36,23 @@ export default new Vuex.Store({
         order.orderDate = order.orderDate.toDate();
       });
       state.orders = orders;
+    },
+    loadMyOrders(state) {
+      let myOrders = [];
+      let myOrdersRef = db
+        .collection("users")
+        .doc(state.user.email)
+        .collection("orders")
+        .orderBy("orderDate", "desc");
+      myOrdersRef.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          myOrders.push(doc.data());
+        });
+      });
+      myOrders.forEach(order => {
+        order.orderDate = order.orderDate.toDate();
+      });
+      state.myOrders = myOrders;
     },
     loadUser(state) {
       state.user = fb.auth().currentUser;
@@ -78,6 +96,9 @@ export default new Vuex.Store({
     },
     loadOrdersAction(context) {
       context.commit("loadOrders");
+    },
+    loadMyOrdersAction(context) {
+      context.commit("loadMyOrders");
     },
     addToCartAction(context, item) {
       context.commit("addToCart", item);

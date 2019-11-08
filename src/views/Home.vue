@@ -111,7 +111,7 @@ export default {
         .doc(email)
         .get()
         .then(snapshot => {
-          this.firstName = snapshot.data().firstName;
+          this.firstName = snapshot.data().firstName; // get users first name
         })
         .catch(error => {
           alert(error);
@@ -121,28 +121,28 @@ export default {
   },
   methods: {
     addToCart(item) {
-      this.$store.dispatch("addToCartAction", item);
+      this.$store.dispatch("addToCartAction", item); // add item to cart
       this.snackbar = true;
     }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user; // get user state
     },
     menu() {
-      return this.$store.state.menu;
+      return this.$store.state.menu; // get menu state
     },
     cart() {
-      return this.$store.state.cart;
+      return this.$store.state.cart; // get cart state
     },
     meals() {
-      return this.$store.getters.meals;
+      return this.$store.getters.meals; // get filtered menu for meals
     },
     sides() {
-      return this.$store.getters.sides;
+      return this.$store.getters.sides; // get filtered menu for sides
     },
     drinks() {
-      return this.$store.getters.drinks;
+      return this.$store.getters.drinks; // get filtered menu for drinks
     }
   }
 };

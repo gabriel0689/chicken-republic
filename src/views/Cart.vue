@@ -107,24 +107,24 @@ export default {
   }),
   computed: {
     cart() {
-      return this.$store.state.cart;
+      return this.$store.state.cart; // get cart state
     },
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user; // get user state
     },
     total() {
-      return this.$store.getters.total;
+      return this.$store.getters.total; // get cart total state
     }
   },
   mounted() {
     if (this.user) {
+      // get the users data
       const email = this.user.email;
       let docRef = db.collection("users").doc(email);
       docRef
         .get()
         .then(doc => {
           if (doc.exists) {
-            // console.log("Document Data", doc.data());
             this.address = doc.data().address;
             this.phoneNumber = doc.data().phoneNumber;
             this.lastName = doc.data().lastName;
@@ -141,16 +141,20 @@ export default {
   },
   methods: {
     increaseQuantity(item) {
+      // increase quantity of the cart item
       this.$store.dispatch("increaseQuantityAction", item);
     },
     decreaseQuantity(item) {
+      // decrease quantity of the cart item
       this.$store.dispatch("decreaseQuantityAction", item);
     },
     removeItem(item) {
+      // // remove an item from the cart item
       this.$store.dispatch("removeItemAction", item);
     },
     submitOrder() {
       if (this.user) {
+        // send auth user order to firestore "orders" subcollection
         db.collection("users")
           .doc(this.user.email)
           .collection("orders")
@@ -159,6 +163,7 @@ export default {
             total: this.total,
             items: this.cart
           });
+        // send auth user order to firestore "orders" root collection
         db.collection("orders").add({
           orderDate: new Date(),
           total: this.total,
@@ -170,6 +175,7 @@ export default {
           zipCode: this.zipCode
         });
       } else {
+        // send guest user order to firestore root collection
         db.collection("orders").add({
           orderDate: new Date(),
           total: this.total,

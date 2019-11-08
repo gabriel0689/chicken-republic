@@ -36,19 +36,18 @@ export default {
       fb.auth()
         .signOut()
         .then(() => {
-          // Sign-out successful.
+          // Sign-out successful. set the user state to null
           this.$store.dispatch("resetUserAction");
           this.$router.push({ name: "login" });
         })
         .catch(error => {
-          // An error happened.
           alert(error.message);
         });
     }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user; // get the user state
     }
   }
 };

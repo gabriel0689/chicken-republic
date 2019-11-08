@@ -75,26 +75,30 @@ export default {
         this.phoneNumber &&
         this.zipCode
       ) {
-        db.collection("users").doc(this.user.email).set({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          address: this.address,
-          phoneNumber: this.phoneNumber,
-          zipCode: this.zipCode
-        })
-        .then(() => {
-          this.loading = false;
-          this.snackbar = true;
-        })
-        .catch((error) => {
-          alert("Error writing document: ", error);
-        });
+        // update user data with the values provided in the form
+        db.collection("users")
+          .doc(this.user.email)
+          .set({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            address: this.address,
+            phoneNumber: this.phoneNumber,
+            zipCode: this.zipCode
+          })
+          .then(() => {
+            this.loading = false;
+            this.snackbar = true;
+          })
+          .catch(error => {
+            alert("Error writing document: ", error);
+          });
       } else {
         this.feedback = "You must enter all fields";
       }
     }
   },
   created() {
+    // populate the data properties with firestore user data
     db.collection("users")
       .doc(this.user.email)
       .get()
@@ -107,12 +111,11 @@ export default {
       })
       .catch(error => {
         alert(error);
-        // this.feedback = error.message;
       });
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user; // get the current user state
     }
   }
 };
