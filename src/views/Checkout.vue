@@ -17,13 +17,13 @@
     </v-row>
     <v-row justify="center">
       <v-btn class="my-8 mx-2 primary" to="/home">Continue Shopping</v-btn>
-      <v-btn class="my-8 primary" to="/admin">View all Orders</v-btn>
+      <v-btn class="my-8 primary" to="/orders">View all Orders</v-btn>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { db, fb } from "../db.js";
+import { db } from "../db.js";
 export default {
   name: "checkout",
   data: () => ({

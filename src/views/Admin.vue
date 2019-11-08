@@ -33,6 +33,9 @@ export default {
     orders() {
       return this.$store.state.orders; // get the user state
     }
+  },
+  created() {
+    this.$store.dispatch("loadOrdersAction"); // get all orders state
   }
 };
 </script>
